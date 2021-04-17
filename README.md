@@ -3,8 +3,9 @@ Ansible playbooks for configuring my media server.
 
 ### TODO:
 - Assign static IP
-- add new account to sudoers
-- Run smbpassswd for the created user account
+- Set a password for the created user account using the ansible vault
+- Run smbpassswd for the created user account using the same password
+- configure the plex server
 
 ### Overview
 
