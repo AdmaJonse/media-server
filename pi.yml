@@ -61,13 +61,18 @@
 
     - name: Configure samba
       copy:
-        src: smb.conf
+        src: files/smb.conf
         dest: /etc/samba/smb.conf
 
     - name: Create the udev rule for the XHD
       copy:
-        src: 99-xhd.rules
+        src: files/99-xhd.rules
         dest: /etc/udev/rules.d/99-xhd.rules
+
+    - name: copy bash aliases into the new user's home
+      copy:
+        src: files/.bash_aliases
+        dest: /home/ajones/.bash_aliases
 
     - name: Reload the udev rules
       shell: udevadm control --reload-rules
