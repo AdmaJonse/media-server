@@ -11,9 +11,23 @@
 
   tasks:
 
+    - name: ensure the wheel group exists
+      group:
+        name: wheel
+        state: present
+
+    - name: enable passwordless sudo for the wheel group
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
     - name: create user account
       user:
         name: "{{ username }}"
+        groups: wheel
 
     - name: Set public key from github
       authorized_key:
@@ -37,11 +51,12 @@
     - name: install packages
       apt:
         name:
-          - vim
+          - git
           - python3
           - python3-pip
           - samba
           - plexmediaserver
+          - vim
         update_cache: yes
 
     - name: Configure samba
