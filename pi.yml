@@ -35,6 +35,16 @@
         state: present
         key: https://github.com/AdmaJonse.keys
 
+    - name: copy bash aliases into the new user's home
+      copy:
+        src: files/.bash_aliases
+        dest: /home/ajones/.bash_aliases
+
+    - name: copy bash aliases into root's home
+      copy:
+        src: files/.bash_aliases
+        dest: /root/.bash_aliases
+
     - name: add the plex repository's GPG key
       apt_key:
         url: "https://downloads.plex.tv/plex-keys/PlexSign.key"
@@ -68,11 +78,6 @@
       copy:
         src: files/99-xhd.rules
         dest: /etc/udev/rules.d/99-xhd.rules
-
-    - name: copy bash aliases into the new user's home
-      copy:
-        src: files/.bash_aliases
-        dest: /home/ajones/.bash_aliases
 
     - name: Reload the udev rules
       shell: udevadm control --reload-rules
