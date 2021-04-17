@@ -1,0 +1,87 @@
+---
+
+- hosts: localhost
+  vars:
+    - username: "ajones"
+  remote_user: root
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: yes
+
+  tasks:
+
+    - name: create user account
+      user:
+        name: "{{ username }}"
+
+    - name: Set public key from github
+      authorized_key:
+        user: "{{ username }}"
+        state: present
+        key: https://github.com/AdmaJonse.keys
+
+    - name: add the plex repository's GPG key
+      apt_key:
+        url: "https://downloads.plex.tv/plex-keys/PlexSign.key"
+        state: present
+
+    - name: add the plex repository
+      apt_repository:
+        repo: deb https://downloads.plex.tv/repo/deb public main
+        state: present
+
+    - name: install apt https transport
+      shell: apt install apt-transport-https
+    
+    - name: install packages
+      apt:
+        name:
+          - vim
+          - python3
+          - python3-pip
+          - samba
+          - plexmediaserver
+        update_cache: yes
+
+    - name: Configure samba
+      copy:
+        src: smb.conf
+        dest: /etc/samba/smb.conf
+
+    - name: Create the udev rule for the XHD
+      copy:
+        src: 99-xhd.rules
+        dest: /etc/udev/rules.d/99-xhd.rules
+
+    - name: Reload the udev rules
+      shell: udevadm control --reload-rules
+      
+    - name: Trigger a udev update
+      shell: udevadm trigger
+      
+    - name: Mount the XHD
+      mount:
+        path: /mnt/xhd
+        src: /dev/xhd2
+        fstype: ntfs
+        state: mounted
+        opts: auto,nofail,noatime,rw,user
+
+    - name: Enable the sshd service
+      systemd:
+        name: ssh
+        state: started
+        enabled: yes
+
+    - name: Enable the samba service
+      systemd:
+        name: smbd
+        state: started
+        enabled: yes
+
+    - name: Enable the plexmedia server service
+      systemd:
+        name: plexmediaserver
+        state: started
+        enabled: yes

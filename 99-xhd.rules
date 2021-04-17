@@ -1,0 +1,1 @@
+ACTION=="add", ATTRS{vendor}=="SAMSUNG", ATTRS{model}=="HD204UI         ", SYMLINK+="xhd%n", RUN+="touch /tmp/udev_xhd"
