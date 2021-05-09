@@ -1,19 +1,11 @@
 # pi-ansible
-Ansible playbooks for configuring my media server.
-
-### TODO:
-- Assign static IP
-- Set a password for the created user account using the ansible vault
-- Run smbpassswd for the created user account using the same password
-- configure the plex server
-- udev rule trigger doesn't seem to work reliably
 
 ## Overview
 
-This playbook is intended to be used to setup up my Raspberry Pi which I primarily use as a media server. The Vagrantfile is intended to be used in testing the playbook. We run the playbook on a virtual machine, then verify it's working correctly before deploying to the Raspberry Pi.
+This playbook is used to configure a media server. It performs installation of plex and any dependencies. It mounts an external hard drive with a friendly device name from udev and uses samba to share it on the network. It also configures a user account with sudo permissions and standard aliases. 
 
 ## Setup
-### Pre-Requisites
+### Prerequisites
 
 Install Ansible on the Linux host:
 ```

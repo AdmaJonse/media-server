@@ -111,3 +111,9 @@
         name: plexmediaserver
         state: started
         enabled: yes
+
+    - name: set the default runlevel
+      file:
+        src: /usr/lib/systemd/multi-user.target
+        dest: /etc/systemd/system/default.target
+        state: link
