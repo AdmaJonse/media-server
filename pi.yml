@@ -80,17 +80,42 @@
         src: files/99-xhd.rules
         dest: /etc/udev/rules.d/99-xhd.rules
 
+    - name: create the udev rule for the YHD
+      copy:
+        src: files/99-yhd.rules
+        dest: /etc/udev/rules.d/99-yhd.rules
+
     - name: reload the udev rules
       shell: udevadm control --reload-rules
       
     - name: trigger a udev update
       shell: udevadm trigger
-      
+    
+    - name: Ensure the XHD mountpoint exists
+      file:
+        path: /mnt/xhd
+        state: directory
+        mode: '0777'
+
+    - name: Ensure the YHD mountpoint exists
+      file:
+        path: /mnt/yhd
+        state: directory
+        mode: '0777'
+
     - name: mount the XHD
       mount:
         path: /mnt/xhd
         src: /dev/xhd2
         fstype: ntfs
+        state: mounted
+        opts: auto,nofail,noatime,rw,user
+
+    - name: mount the YHD
+      mount:
+        path: /mnt/yhd
+        src: /dev/yhd1
+        fstype: exfat
         state: mounted
         opts: auto,nofail,noatime,rw,user
 

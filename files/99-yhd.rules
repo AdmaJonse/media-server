@@ -1,0 +1,1 @@
+ACTION=="add", ATTRS{vendor}=="Samsung", ATTRS{model}=="PSSD T7", SYMLINK+="yhd%n", RUN+="touch /tmp/udev_xhd"
