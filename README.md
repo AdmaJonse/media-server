@@ -1,4 +1,4 @@
-# pi-ansible
+# media-server
 
 ## Overview
 
@@ -13,7 +13,7 @@ Install Ansible on the Linux host:
 ```
 Clone this repository onto the Linux host:
 ```
-> git clone https://github.com/AdmaJonse/pi-ansible.git
+> git clone https://github.com/AdmaJonse/media-server.git
 ```
 
 ### Running the Playbook
