@@ -109,7 +109,7 @@
         src: /dev/xhd2
         fstype: ntfs
         state: mounted
-        opts: auto,nofail,noatime,rw,user
+        opts: auto,nofail,noatime,rw,user,uid={{ username }},gid={{ username }}
 
     - name: mount the YHD
       mount:
@@ -117,7 +117,7 @@
         src: /dev/yhd1
         fstype: exfat
         state: mounted
-        opts: auto,nofail,noatime,rw,user
+        opts: auto,nofail,noatime,rw,user,uid={{ username }},gid={{ username }}
 
     - name: enable the sshd service
       systemd:
