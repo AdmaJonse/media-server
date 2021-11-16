@@ -3,6 +3,7 @@
 - hosts: localhost
   vars:
     - username: "ajones"
+    - ip_address: 192.168.1.133
   remote_user: root
   become: yes
   become_method: sudo
@@ -142,3 +143,13 @@
         src: /usr/lib/systemd/multi-user.target
         dest: /etc/systemd/system/default.target
         state: link
+
+    - name: set the static IP address
+      blockinfile:
+        path: /etc/dchpcd.conf
+        block: |
+          interface eth0
+          static ip_address={{ ip_address }}/24
+          static routers=192.168.1.1
+          static domain_name_servers=192.168.1.1
+          
